@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Defence SIP Follow-up — UpperCrust Wealth</title>
+<link rel="stylesheet" href="assets/styles.css?v=7">
+<style>
+  .form-card{width:100%;max-width:520px;padding:40px 38px;}
+  .form-header{text-align:center;margin-bottom:22px;}
+  .form-header h2{font-size:21px;color:var(--gold-text);letter-spacing:.5px;margin-bottom:8px;}
+  .form-header p{font-size:12.5px;color:var(--text-dim);line-height:1.6;}
+
+  .step-progress{margin-bottom:26px;}
+  .step-progress-track{height:5px;background:rgba(125,87,38,.15);border-radius:3px;overflow:hidden;}
+  .step-progress-fill{height:100%;width:10%;border-radius:3px;
+    background:linear-gradient(90deg,var(--gold-2),var(--gold-3));transition:width .45s ease;}
+  .step-progress-label{margin-top:7px;font-size:11px;letter-spacing:.5px;color:var(--text-faint);text-align:right;}
+
+  .input-group{margin-bottom:15px;text-align:left;}
+  .input-group label,.q-label{display:block;font-size:12.5px;font-weight:600;letter-spacing:.6px;line-height:1.4;color:#2b2417;
+    margin-bottom:6px;text-transform:uppercase;}
+  .input-group input,.input-group select,.input-group textarea{
+    width:100%;padding:12px 14px;background:linear-gradient(135deg,#f7ecd3,#f0dfb8);
+    border:1px solid rgba(168,118,60,.4);border-radius:8px;color:#000;font-size:13.5px;outline:none;
+    transition:all .25s ease;font-family:inherit;}
+  .input-group textarea{resize:vertical;min-height:70px;}
+  .input-group select option{background:#f7ecd3;color:#000;}
+  .input-group input:focus,.input-group select:focus,.input-group textarea:focus{
+    border-color:var(--gold-4);box-shadow:0 0 10px rgba(168,118,60,.3);background:linear-gradient(135deg,#fbf5e6,#f5e6c4);}
+
+  .form-step{display:none;}
+  .form-step.active{display:block;animation:step-in .4s ease;}
+  @keyframes step-in{from{opacity:0;transform:translateX(18px);}to{opacity:1;transform:translateX(0);}}
+  .step-nav{display:flex;gap:10px;margin-top:6px;}
+  .step-back-btn{flex:0 0 auto;}
+  .step-next-btn{flex:1;border-radius:8px;font-size:13px;letter-spacing:1px;padding:12px 20px;}
+  .submit-btn{border-radius:8px;font-size:13px;letter-spacing:1px;margin-top:0;}
+  .skip-btn{background:none;border:0;font-family:inherit;font-size:12px;color:var(--text-faint);cursor:pointer;
+    text-decoration:underline;margin-top:10px;display:block;text-align:center;width:100%;}
+  .skip-btn:hover{color:var(--gold-text);}
+
+  .opt-list{display:flex;flex-direction:column;gap:9px;}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;text-align:left;cursor:pointer;
+    font-family:inherit;font-size:13.5px;color:#2b2417;line-height:1.3;
+    background:linear-gradient(135deg,#f7ecd3,#f0dfb8);border:1px solid rgba(168,118,60,.4);border-radius:8px;transition:all .2s ease;}
+  .opt:hover{background:linear-gradient(135deg,#fbf5e6,#f5e6c4);}
+  .opt.sel{border-color:var(--gold-4);background:linear-gradient(135deg,#fbf1d6,#f2dca6);box-shadow:0 0 8px rgba(168,118,60,.25);}
+  .opt .num{flex:none;width:20px;font-weight:700;color:var(--gold-text);}
+  .chips{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .chip{padding:13px 0;text-align:center;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;color:#2b2417;
+    background:linear-gradient(135deg,#f7ecd3,#f0dfb8);border:1px solid rgba(168,118,60,.4);border-radius:8px;transition:all .2s ease;}
+  .chip:hover,.chip.sel{border-color:var(--gold-4);background:linear-gradient(135deg,#fbf1d6,#f2dca6);}
+  .other-row{display:none;gap:10px;margin-top:12px;}
+  .other-row.show{display:flex;animation:step-in .3s ease;}
+  .other-row input{flex:1;}
+  .other-row button{flex:0 0 auto;padding:0 22px;}
+
+  .ctx{font-size:12.5px;color:var(--text-dim);margin-bottom:14px;line-height:1.6;}
+  .ctx b{color:#2b2417;}
+  .ctx .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.4px;padding:2px 8px;border-radius:10px;
+    margin-left:6px;vertical-align:middle;}
+  .tag.High{background:rgba(192,82,74,.15);color:#a13d35;}
+  .tag.Medium{background:rgba(217,154,43,.18);color:#96701e;}
+  .tag.Low{background:rgba(63,155,95,.15);color:#2c7247;}
+
+  .state-panel{display:none;text-align:center;padding:6px 0;}
+  .state-panel.show{display:block;animation:step-in .4s ease;}
+  .state-panel .mark{font-size:40px;color:var(--gold-text);margin-bottom:10px;}
+  .state-panel h3{font-size:19px;color:var(--gold-text);margin-bottom:8px;letter-spacing:.3px;}
+  .state-panel p{font-size:13px;color:var(--text-dim);line-height:1.7;margin-bottom:18px;}
+  .spinner{width:34px;height:34px;margin:0 auto 14px;border-radius:50%;border:3px solid rgba(168,118,60,.25);
+    border-top-color:var(--gold-3);animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .link-btn{background:none;border:0;font-family:inherit;font-size:12px;color:var(--text-faint);cursor:pointer;margin-top:14px;text-decoration:underline;}
+  .link-btn:hover{color:var(--gold-text);}
+  .err{color:#991b1b;}
+  .stack{display:flex;flex-direction:column;gap:10px;}
+  @media (max-width:640px){.form-card{padding:32px 22px;}.chips{grid-template-columns:repeat(4,1fr);}}
+</style>
+</head>
+<body>
+
+  <div id="wave-bg">
+    <svg viewBox="0 0 1440 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fffdf8"/><stop offset="100%" stop-color="#f2ddac"/></linearGradient>
+        <linearGradient id="wg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#eec583"/><stop offset="100%" stop-color="#c89a56"/></linearGradient>
+        <linearGradient id="wg3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#dcab5e"/><stop offset="100%" stop-color="#b3823c"/></linearGradient>
+        <linearGradient id="wg4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a8763c"/><stop offset="100%" stop-color="#7d5726"/></linearGradient>
+      </defs>
+      <path class="wv1" fill="url(#wg1)" opacity="0.9" d="M0,240 C240,170 480,310 720,240 C960,170 1200,310 1440,240 L1440,800 L0,800 Z"/>
+      <path class="wv2" fill="url(#wg2)" opacity="0.85" d="M0,370 C260,300 420,440 680,380 C920,320 1180,460 1440,390 L1440,800 L0,800 Z"/>
+      <path class="wv3" fill="url(#wg3)" opacity="0.82" d="M0,510 C240,590 480,450 720,510 C960,570 1200,430 1440,500 L1440,800 L0,800 Z"/>
+      <path class="wv4" fill="url(#wg4)" opacity="0.8" d="M0,650 C260,580 480,700 740,650 C980,605 1200,715 1440,660 L1440,800 L0,800 Z"/>
+    </svg>
+  </div>
+
+  <div class="content-overlay">
+    <nav>
+      <div class="nav-logo"><img src="assets/ucw-logo.png" alt="UpperCrust Wealth"></div>
+    </nav>
+
+    <div class="page">
+      <div class="form-card card reveal is-visible">
+        <div class="form-header">
+          <h2>Defence SIP Follow-up</h2>
+          <p>UpperCrust Wealth · Relationship Manager call log</p>
+        </div>
+
+        <!-- loading / load-error -->
+        <div class="state-panel show" id="loadPanel">
+          <div class="spinner"></div>
+          <p>Loading your client list…</p>
+        </div>
+        <div class="state-panel" id="loadErrPanel">
+          <h3>Couldn't load the list</h3>
+          <p class="err" id="loadErrMsg">Please check your connection and try again.</p>
+          <button type="button" class="cta-btn step-next-btn" id="retryLoad" style="width:100%">Try again</button>
+        </div>
+
+        <div id="wizard" style="display:none">
+          <div class="step-progress">
+            <div class="step-progress-track"><div class="step-progress-fill" id="fill"></div></div>
+            <div class="step-progress-label" id="plabel">Step 1 of 9</div>
+          </div>
+
+          <!-- 1 · who are you -->
+          <div class="form-step active" data-step="rm">
+            <div class="input-group">
+              <label for="rmSel">Who are you?</label>
+              <select id="rmSel"><option value="" disabled selected>Select your name</option></select>
+            </div>
+            <div class="step-nav"><button type="button" class="cta-btn step-next-btn" id="rmNext">Next</button></div>
+          </div>
+
+          <!-- 2 · which client -->
+          <div class="form-step" data-step="client">
+            <div class="input-group">
+              <label for="clientSel">Which client?</label>
+              <select id="clientSel"></select>
+            </div>
+            <div class="step-nav">
+              <button type="button" class="ghost-btn step-back-btn" data-go="rm">Back</button>
+              <button type="button" class="cta-btn step-next-btn" id="clientNext">Next</button>
+            </div>
+          </div>
+
+          <!-- 3 · mode of contact -->
+          <div class="form-step" data-step="mode">
+            <div class="ctx" id="ctxMode"></div>
+            <span class="q-label">How did you reach them?</span>
+            <div class="opt-list" id="modeList">
+              <button type="button" class="opt" data-v="Call"><span class="num">1</span>Call</button>
+              <button type="button" class="opt" data-v="WhatsApp"><span class="num">2</span>WhatsApp</button>
+              <button type="button" class="opt" data-v="Meeting"><span class="num">3</span>Meeting</button>
+              <button type="button" class="opt" data-v="Email"><span class="num">4</span>Email</button>
+            </div>
+            <div class="step-nav" style="margin-top:14px">
+              <button type="button" class="ghost-btn step-back-btn" data-go="client">Back</button>
+            </div>
+          </div>
+
+          <!-- 4 · outcome -->
+          <div class="form-step" data-step="outcome">
+            <span class="q-label">What did the client say?</span>
+            <div class="opt-list" id="outcomeList">
+              <button type="button" class="opt" data-v="Interested to continue"><span class="num">1</span>Interested to continue — will keep the SIP as is</button>
+              <button type="button" class="opt" data-v="Wants to increase SIP"><span class="num">2</span>Wants to increase SIP</button>
+              <button type="button" class="opt" data-v="Wants to pause or stop"><span class="num">3</span>Wants to pause or stop</button>
+              <button type="button" class="opt" data-v="Wants to switch scheme"><span class="num">4</span>Wants to switch scheme</button>
+              <button type="button" class="opt" data-v="Not reachable"><span class="num">5</span>Not reachable</button>
+              <button type="button" class="opt" data-v="Already informed / no action needed"><span class="num">6</span>Already informed / no action needed</button>
+            </div>
+            <div class="step-nav" style="margin-top:14px">
+              <button type="button" class="ghost-btn step-back-btn" data-go="mode">Back</button>
+            </div>
+          </div>
+
+          <!-- 5 · additional SIP amount (only if "wants to increase") -->
+          <div class="form-step" data-step="addsip">
+            <div class="ctx">How much extra per month has the client agreed to?</div>
+            <span class="q-label">Additional SIP (₹ / month)</span>
+            <div class="chips" id="sipChips">
+              <button type="button" class="chip" data-v="500">₹500</button>
+              <button type="button" class="chip" data-v="1000">₹1,000</button>
+              <button type="button" class="chip" data-v="2000">₹2,000</button>
+              <button type="button" class="chip" data-v="5000">₹5,000</button>
+            </div>
+            <div class="other-row" id="sipOtherRow">
+              <div class="input-group" style="flex:1;margin:0"><input type="number" id="sipOtherNum" min="1" max="1000000" inputmode="numeric" placeholder="Enter amount (₹)"></div>
+              <button type="button" class="cta-btn" id="sipOtherSave">Save</button>
+            </div>
+            <button type="button" class="skip-btn" id="sipOtherToggle" style="margin-top:12px">Enter a different amount</button>
+            <div class="step-nav" style="margin-top:14px">
+              <button type="button" class="ghost-btn step-back-btn" data-go="outcome">Back</button>
+            </div>
+          </div>
+
+          <!-- 6 · concern -->
+          <div class="form-step" data-step="concern">
+            <span class="q-label">Any concern raised?</span>
+            <div class="opt-list" id="concernList">
+              <button type="button" class="opt" data-v=""><span class="num">·</span>No concern raised</button>
+              <button type="button" class="opt" data-v="Market volatility"><span class="num">1</span>Market volatility</button>
+              <button type="button" class="opt" data-v="Sector risk (Defence)"><span class="num">2</span>Sector risk (Defence)</button>
+              <button type="button" class="opt" data-v="Returns"><span class="num">3</span>Returns</button>
+              <button type="button" class="opt" data-v="Portfolio overlap"><span class="num">4</span>Portfolio overlap</button>
+              <button type="button" class="opt" data-v="Cash need / liquidity"><span class="num">5</span>Cash need / liquidity</button>
+              <button type="button" class="opt" data-v="Other"><span class="num">6</span>Other</button>
+            </div>
+            <div class="step-nav" style="margin-top:14px">
+              <button type="button" class="ghost-btn step-back-btn" id="concernBack">Back</button>
+            </div>
+          </div>
+
+          <!-- 7 · action taken -->
+          <div class="form-step" data-step="action">
+            <span class="q-label">Action taken</span>
+            <div class="opt-list" id="actionList">
+              <button type="button" class="opt" data-v="No action"><span class="num">1</span>No action</button>
+              <button type="button" class="opt" data-v="SIP increased"><span class="num">2</span>SIP increased</button>
+              <button type="button" class="opt" data-v="New SIP added"><span class="num">3</span>New SIP added</button>
+              <button type="button" class="opt" data-v="SIP paused"><span class="num">4</span>SIP paused</button>
+              <button type="button" class="opt" data-v="SIP stopped"><span class="num">5</span>SIP stopped</button>
+              <button type="button" class="opt" data-v="Switched scheme"><span class="num">6</span>Switched scheme</button>
+            </div>
+            <div class="step-nav" style="margin-top:14px">
+              <button type="button" class="ghost-btn step-back-btn" data-go="concern">Back</button>
+            </div>
+          </div>
+
+          <!-- 8 · remarks + next follow-up date -->
+          <div class="form-step" data-step="remarks">
+            <div class="input-group">
+              <label for="remarksIn">Remarks — what the client said (optional)</label>
+              <textarea id="remarksIn" maxlength="300" placeholder="Short note, optional"></textarea>
+            </div>
+            <div class="input-group">
+              <label for="nextFollowUp">Next follow-up date (optional)</label>
+              <input type="date" id="nextFollowUp">
+            </div>
+            <div class="step-nav">
+              <button type="button" class="ghost-btn step-back-btn" data-go="action">Back</button>
+              <button type="button" class="cta-btn step-next-btn" id="remarksNext">Next</button>
+            </div>
+          </div>
+
+          <!-- 9 · follow-up status -->
+          <div class="form-step" data-step="status">
+            <span class="q-label">Follow-up status</span>
+            <div class="opt-list" id="statusList">
+              <button type="button" class="opt" data-v="Pending"><span class="num">1</span>Pending</button>
+              <button type="button" class="opt" data-v="In Progress"><span class="num">2</span>In Progress</button>
+              <button type="button" class="opt" data-v="Closed"><span class="num">3</span>Closed — nothing more needed</button>
+            </div>
+            <div class="step-nav" style="margin-top:14px">
+              <button type="button" class="ghost-btn step-back-btn" data-go="remarks">Back</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- saving / done / save-error -->
+        <div class="state-panel" id="savingPanel">
+          <div class="spinner"></div>
+          <p id="savingMsg">Saving…</p>
+        </div>
+        <div class="state-panel" id="donePanel">
+          <div class="mark">✓</div>
+          <h3>Logged</h3>
+          <p id="doneMsg"></p>
+          <div class="stack">
+            <button type="button" class="cta-btn step-next-btn" id="another">Log another client</button>
+            <button type="button" class="link-btn" id="changeRm">Not you? Change name</button>
+          </div>
+        </div>
+        <div class="state-panel" id="saveErrPanel">
+          <h3>Not saved</h3>
+          <p class="err" id="saveErrMsg">Something went wrong. Please try again.</p>
+          <div class="stack">
+            <button type="button" class="cta-btn step-next-btn" id="retrySave">Try again</button>
+            <button type="button" class="link-btn" id="cancelSave">Go back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---- Apps Script Web App endpoint (see apps-script/Code.gs + SETUP.md) ----
+    const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbwshCoYCOse419rfURkKxM2WXDLmLM990ZE-3-zGpZBwqgKmmMpbN3BqzQCMBLy55my/exec";
+
+    const $ = (id) => document.getElementById(id);
+    const rmSel = $('rmSel'), clientSel = $('clientSel');
+    // steps shown for every submission, in order; 'addsip' is inserted only when the outcome needs it
+    const BASE_STEPS = ['rm', 'client', 'mode', 'outcome', 'concern', 'action', 'remarks', 'status'];
+    let data = [];            // [{name, clients:[...]}]
+    let rm = null, client = null, pendingPayload = null;
+    let answer = {};          // collected answers for the current client
+
+    function inr(n) { return '₹' + Number(n || 0).toLocaleString('en-IN', { maximumFractionDigits: 0 }); }
+
+    // ---------- panels ----------
+    const panels = ['loadPanel', 'loadErrPanel', 'savingPanel', 'donePanel', 'saveErrPanel'];
+    function showPanel(id) {
+      panels.forEach((p) => $(p).classList.toggle('show', p === id));
+      $('wizard').style.display = id ? 'none' : '';
+    }
+
+    // ---------- step order (dynamic: addsip only when needed) ----------
+    function stepOrder() {
+      if (answer.outcome === 'Wants to increase SIP') {
+        const o = BASE_STEPS.slice();
+        o.splice(o.indexOf('outcome') + 1, 0, 'addsip');
+        return o;
+      }
+      return BASE_STEPS;
+    }
+    function showStep(name) {
+      document.querySelectorAll('.form-step').forEach((s) => s.classList.toggle('active', s.dataset.step === name));
+      const order = stepOrder();
+      const i = order.indexOf(name);
+      $('fill').style.width = ((i + 1) / order.length) * 100 + '%';
+      $('plabel').textContent = 'Step ' + (i + 1) + ' of ' + order.length;
+      showPanel(null);
+    }
+    document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => showStep(b.dataset.go)));
+
+    // ---------- load list ----------
+    function outcomeLabel(c) {
+      if (!c.outcome) return '';
+      let s = ' — ' + c.outcome;
+      if (c.followUpStatus) s += ' (' + c.followUpStatus + ')';
+      return s;
+    }
+    function fillRms() {
+      rmSel.innerHTML = '<option value="" disabled selected>Select your name</option>';
+      data.forEach((r, i) => rmSel.add(new Option(r.name, i)));
+    }
+    function fillClients() {
+      clientSel.innerHTML = '<option value="" disabled selected>Select a client</option>';
+      rm.clients.forEach((c, i) => clientSel.add(new Option(c.name + ' — ' + inr(c.currentSip) + '/mo' + outcomeLabel(c), i)));
+    }
+
+    function loadList() {
+      showPanel('loadPanel');
+      if (ENDPOINT_URL.indexOf('PASTE_YOUR') === 0) {
+        $('loadErrMsg').textContent = 'Not connected to the Google Sheet yet — see SETUP.md (ENDPOINT_URL in index.html).';
+        showPanel('loadErrPanel');
+        return;
+      }
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 30000);
+      fetch(ENDPOINT_URL, { signal: ctrl.signal })
+        .then((r) => r.json())
+        .then((d) => {
+          if (d.result !== 'success') throw new Error(d.error || 'Unknown error');
+          data = d.rms;
+          fillRms();
+          const saved = sessionStorage.getItem('sipRmName');
+          const idx = data.findIndex((r) => r.name === saved);
+          if (idx >= 0) { rmSel.value = idx; rm = data[idx]; fillClients(); showStep('client'); }
+          else showStep('rm');
+        })
+        .catch((e) => {
+          $('loadErrMsg').textContent = 'Please check your connection and try again. (' + (e.message || e.name) + ')';
+          showPanel('loadErrPanel');
+        })
+        .finally(() => clearTimeout(t));
+    }
+    $('retryLoad').addEventListener('click', loadList);
+
+    // ---------- step 1: RM ----------
+    function rmNext() {
+      if (rmSel.value === '') { rmSel.focus(); return; }
+      rm = data[+rmSel.value];
+      try { sessionStorage.setItem('sipRmName', rm.name); } catch (e) {}
+      fillClients();
+      showStep('client');
+    }
+    $('rmNext').addEventListener('click', rmNext);
+    rmSel.addEventListener('change', rmNext);
+
+    // ---------- step 2: client ----------
+    function clientNext() {
+      if (clientSel.value === '') { clientSel.focus(); return; }
+      client = rm.clients[+clientSel.value];
+      answer = {};
+      const prio = client.priority || 'Low';
+      $('ctxMode').innerHTML = '<b>' + esc(client.name) + '</b> · Current SIP ' + inr(client.currentSip) + '/mo' +
+        '<span class="tag ' + prio + '">' + prio + '</span>' +
+        (client.outcome ? '<br>Last logged: ' + esc(client.outcome) + (client.followUpStatus ? ' · ' + esc(client.followUpStatus) : '') : '<br>Not yet contacted');
+      document.querySelectorAll('.opt').forEach((o) => o.classList.remove('sel'));
+      $('remarksIn').value = '';
+      const d = new Date(); d.setDate(d.getDate() + 7);
+      $('nextFollowUp').value = d.toISOString().slice(0, 10);
+      showStep('mode');
+    }
+    $('clientNext').addEventListener('click', clientNext);
+    clientSel.addEventListener('change', clientNext);
+
+    // ---------- generic single-choice steps ----------
+    function wireChoice(listId, field, nextStepFn) {
+      document.querySelectorAll('#' + listId + ' .opt').forEach((btn) => btn.addEventListener('click', () => {
+        document.querySelectorAll('#' + listId + ' .opt').forEach((o) => o.classList.toggle('sel', o === btn));
+        answer[field] = btn.dataset.v;
+        nextStepFn();
+      }));
+    }
+    wireChoice('modeList', 'mode', () => showStep('outcome'));
+    wireChoice('outcomeList', 'outcome', () => {
+      if (answer.outcome === 'Wants to increase SIP') {
+        document.querySelectorAll('#sipChips .chip').forEach((c) => c.classList.remove('sel'));
+        $('sipOtherRow').classList.remove('show'); $('sipOtherNum').value = '';
+        showStep('addsip');
+      } else {
+        showStep('concern');
+      }
+    });
+    wireChoice('actionList', 'action', () => showStep('remarks'));
+    wireChoice('statusList', 'followUpStatus', () => save());
+
+    // concern list has its own back target (addsip or outcome) + confirm on click
+    document.querySelectorAll('#concernList .opt').forEach((btn) => btn.addEventListener('click', () => {
+      document.querySelectorAll('#concernList .opt').forEach((o) => o.classList.toggle('sel', o === btn));
+      answer.concern = btn.dataset.v;
+      showStep('action');
+    }));
+    $('concernBack').addEventListener('click', () => showStep(answer.outcome === 'Wants to increase SIP' ? 'addsip' : 'outcome'));
+
+    // ---------- step 5: additional SIP amount ----------
+    document.querySelectorAll('#sipChips .chip').forEach((btn) => btn.addEventListener('click', () => {
+      document.querySelectorAll('#sipChips .chip').forEach((c) => c.classList.toggle('sel', c === btn));
+      answer.additionalSip = Number(btn.dataset.v);
+      showStep('concern');
+    }));
+    $('sipOtherToggle').addEventListener('click', () => { $('sipOtherRow').classList.add('show'); $('sipOtherNum').focus(); });
+    function saveSipOther() {
+      const n = parseInt($('sipOtherNum').value, 10);
+      if (!(n > 0 && n <= 1000000)) { $('sipOtherNum').reportValidity(); return; }
+      answer.additionalSip = n;
+      showStep('concern');
+    }
+    $('sipOtherSave').addEventListener('click', saveSipOther);
+    $('sipOtherNum').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); saveSipOther(); } });
+
+    // ---------- step 8: remarks + next follow-up ----------
+    $('remarksNext').addEventListener('click', () => {
+      answer.remarks = $('remarksIn').value.trim();
+      answer.nextFollowUpDate = $('nextFollowUp').value;
+      document.querySelectorAll('#statusList .opt').forEach((o) => o.classList.remove('sel'));
+      showStep('status');
+    });
+
+    // ---------- save (background write to the Sheet) ----------
+    function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+    function post(payload) {
+      const MAX = 5, TIMEOUT = 30000, body = JSON.stringify(payload);
+      let attempt = 0;
+      const once = () => {
+        attempt++;
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), TIMEOUT);
+        // text/plain avoids a CORS preflight against Apps Script web apps
+        return fetch(ENDPOINT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body, signal: ctrl.signal })
+          .then(async (res) => {
+            clearTimeout(t);
+            if (res.status >= 500 && attempt < MAX) throw new Error('retry');
+            let d = null;
+            try { d = JSON.parse(await res.text()); } catch (e) { d = res.ok ? { result: 'success' } : { result: 'error', error: 'HTTP ' + res.status }; }
+            if (d.result === 'busy') { if (attempt < MAX) throw new Error('retry'); throw new Error('Server busy'); }
+            if (d.result === 'error') { const e = new Error(d.error || 'Unknown error'); e.fatal = true; throw e; }
+            return d;
+          })
+          .catch((err) => {
+            clearTimeout(t);
+            if (err.fatal || attempt >= MAX) throw err;
+            return new Promise((r) => setTimeout(r, 900 * attempt + Math.random() * 1200)).then(once);
+          });
+      };
+      return once();
+    }
+
+    function save() {
+      pendingPayload = {
+        rm: rm.name, client: client.name, mode: answer.mode, outcome: answer.outcome,
+        concern: answer.concern || '', additionalSip: answer.additionalSip || '',
+        action: answer.action, remarks: answer.remarks || '', nextFollowUpDate: answer.nextFollowUpDate || '',
+        followUpStatus: answer.followUpStatus, submittedAt: new Date().toISOString(),
+      };
+      doSave();
+    }
+    function doSave() {
+      $('savingMsg').textContent = 'Saving ' + pendingPayload.client + '…';
+      showPanel('savingPanel');
+      post(pendingPayload).then(() => {
+        client.outcome = pendingPayload.outcome;
+        client.followUpStatus = pendingPayload.followUpStatus;
+        $('doneMsg').innerHTML = '<b>' + esc(client.name) + '</b><br>' + esc(pendingPayload.outcome) +
+          ' · ' + esc(pendingPayload.followUpStatus) +
+          (pendingPayload.additionalSip ? '<br>+' + inr(pendingPayload.additionalSip) + '/mo' : '');
+        showPanel('donePanel');
+      }).catch((err) => {
+        $('saveErrMsg').textContent = 'Not saved — ' + (err.message || err.name) + '. Nothing was recorded; please try again.';
+        showPanel('saveErrPanel');
+      });
+    }
+    $('retrySave').addEventListener('click', doSave);
+    $('cancelSave').addEventListener('click', () => showStep('status'));
+
+    // ---------- back to the questions ----------
+    $('another').addEventListener('click', () => { fillClients(); showStep('client'); });
+    $('changeRm').addEventListener('click', () => {
+      try { sessionStorage.removeItem('sipRmName'); } catch (e) {}
+      rmSel.value = ''; rmSel.selectedIndex = 0; showStep('rm');
+    });
+
+    loadList();
+  </script>
+</body>
+</html>
